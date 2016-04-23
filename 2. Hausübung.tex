@@ -27,7 +27,7 @@ Die (gewöhnliche) erzeugende Funktion
 einer diskreten Wahrscheinlichkeitsverteilung $p(n)$
 für eine Zufallsvariablen $n\in\mathbb{N}$ ist definiert durch
 \begin{equation}
-    g_p(x) := \sum_{n=0}^{\infty} x^n p(n)
+    g_p(x) := \sum_{n=0}^{\infty} x^n p(n) \label{eq:erzeugende}
 \end{equation}
 
 \subsection{Erwartungswert und Varianz durch $g(x)$ ausgedrückt}
@@ -134,5 +134,42 @@ Einsetzen in die Formel (\ref{eq:varianz}) ergibt dann:
 \end{align*}
 
 \subsubsection{Binomialverteilung}
+Die Binomialverteilung ist defniert als
+\begin{equation}
+    B_{n,p}(k) = \binom{n}{k} p^k (1-p)^{n-k}   \qquad \text{mit}\; k=0,\ldots,n
+\end{equation}
+Für die Erzeugende Funktion $g_{B_{n,p}}$ lässt sich nach (\ref{eq:erzeugende}) aufschreiben:
+\begin{equation}
+    g_{B_{n,p}} = \sum_{k=0}^n \binom{n}{k} (xp)^k (1-p)^{n-k}
+\end{equation}
+Mithilfe des Binomischen Lehrsatzes
+\begin{equation}
+    \sum_{k=0}^n \binom{n}{k} x^{n-k} y^k  = (x+y)^n
+\end{equation}
+folgt über die einfache Zuordnung $x=1-p$ und $y=xp$, dass
+\begin{equation}
+    g_{B_{n,p}}(x) = \sum_{k=0}^n \binom{n}{k} (xp)^k (1-p)^{n-k} = (1-p+xp)^n
+\end{equation}
+
+Nach (\ref{eq:erwartungswert}) ergibt sich dann für den Erwartungswert der Binomialverteilung:
+\begin{equation}
+    \langle B_{n,p} \rangle = g'_{B_{n,p}}(1)
+    = np(1-p+xp)^{n-1} \Big|_{x=1}
+    = np 1^{n-1} = np
+\end{equation}
+
+Für die Varianz berechnen wir zuerst $g_{B_{n,p}}''(1)$:
+\begin{equation}
+    g_{P_\lambda}''(1) = np(n-1)p(1-p+xp)^{n-2} \Big|_{x=1}
+                       = np(n-1)p = n^2 p^2 - n p^2
+\end{equation}
+Einsetzen in die Formel (\ref{eq:varianz}) ergibt dann
+für die Varianz der Binomialverteilung:
+\begin{align*}
+    \sigma_{B_{n,p}}^2 &= g''(1) + g'(1) - g'(1)^2 \\
+                       &= n^2 p^2 - n p^2 + np - n^2 p^2 
+                       = np-np^2 = np(1-p)
+\end{align*}
+
 
 \end{document}
