@@ -6,12 +6,18 @@
 \usepackage[ngerman]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{parskip}
 
+% parskip
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+
+% sections
 \renewcommand{\thesection}{Aufgabe \arabic{section}}
 \renewcommand{\thesubsection}{\alph{subsection})}
-
 \renewcommand{\thesubsubsection}{\roman{subsubsection})}
 
+% abbrevs
 \newcommand{\dx}{\frac{\mathrm{d}}{\mathrm{d}x}}
 \newcommand{\dxx}{\frac{\mathrm{d}^2}{\mathrm{d}x^2}}
 
@@ -27,14 +33,14 @@ Die (gewöhnliche) erzeugende Funktion
 einer diskreten Wahrscheinlichkeitsverteilung $p(n)$
 für eine Zufallsvariablen $n\in\mathbb{N}$ ist definiert durch
 \begin{equation}
-    g_p(x) := \sum_{n=0}^{\infty} x^n p(n) \label{eq:erzeugende}
+    g_p(x) := \sum_{n=0}^{\infty} x^n p(n) \label{eq:erzeugende} \,.
 \end{equation}
 
 \subsection{Erwartungswert und Varianz durch $g(x)$ ausgedrückt}
 \subsubsection{Erwartungswert}
 Der Erwartungswert ist allgemein definiert als
 \begin{equation}
-    \langle p \rangle := \sum_{n=0}^{\infty} n \, p(n)
+    \langle p \rangle := \sum_{n=0}^{\infty} n \, p(n) \,.
 \end{equation}
 Wir vergleichen die Terme des Erwartungswertes mit denen der Erzeugenden Funktion:
 \begin{align*}
@@ -63,9 +69,9 @@ kann dies noch in besserer Schreibweise bewiesen werden:
 
 
 \subsubsection{Varianz}
-Die Varianz ist allgemein definiert als
+Die Varianz ist nach dem Satz von König-Huygens
 \begin{equation}
-    \sigma_p^2 := \langle p^2 \rangle - \langle p \rangle^2
+    \sigma_p^2 := \langle p^2 \rangle - \langle p \rangle^2 \,.
 \end{equation}
 $\langle p \rangle^2$ ist schon als $g_p'(1)^2$ bekannt,
 $\langle p^2 \rangle$ aber ist:
@@ -167,9 +173,87 @@ Einsetzen in die Formel (\ref{eq:varianz}) ergibt dann
 für die Varianz der Binomialverteilung:
 \begin{align*}
     \sigma_{B_{n,p}}^2 &= g''(1) + g'(1) - g'(1)^2 \\
-                       &= n^2 p^2 - n p^2 + np - n^2 p^2 
+                       &= n^2 p^2 - n p^2 + np - n^2 p^2
                        = np-np^2 = np(1-p)
 \end{align*}
+
+
+\section{Grenzwert der Binomialverteilung}
+Bestimmen Sie den Grenzwert der Binomial-Verteilung
+\begin{equation}
+    B(n) = \binom{m}{n} p^n (1-p)^{m-n} \label{eq:binom}
+\end{equation}
+für $m\to\infty$ und $\langle B \rangle = m \cdot p$ konstant.
+
+Die Nebenbedingung
+\begin{equation}
+    \lim_{m\to\infty} m \cdot p = \langle B \rangle \label{eq:nebenbedingung}
+\end{equation}
+impliziert, dass
+\begin{equation}
+    \lim_{m\to\infty} p = \lim_{m\to\infty} \frac{\langle B \rangle}{m} = 0
+\end{equation}
+Wir sollten also $p$ in der Binomialverteilung (\ref{eq:binom}) durch (\ref{eq:nebenbedingung}) ersetzen
+
+Mit der Definition des Binomialkoeffizienten
+\begin{equation}
+    \binom{m}{n} = \frac{m!}{(m-n)!\;n!}
+\end{equation}
+und der Nebenbedingung (\ref{eq:nebenbedingung}) lässt sich
+die Binomialverteilung schreiben als
+\begin{equation}
+    B(n) = \frac{m!}{(m-n)!n!}
+       \left( \frac{\langle B \rangle}{m} \right)^n
+       \left( 1-\frac{\langle B \rangle}{m} \right)^{m-n}
+\end{equation}
+
+Bei Anwendung des Grenzwertes $\lim_{m\to\infty}$, kann man einen Faktor vorziehen
+\begin{align*}
+    \lim_{m\to\infty} B(n) = &\lim_{m\to\infty} \frac{m!}{(m-n)! \; n!}
+       \left( \frac{\langle B \rangle}{m} \right)^n
+       \left( 1-\frac{\langle B \rangle}{m} \right)^{m-n} \\
+    = \frac{\langle B \rangle^n}{n!} &\lim_{m\to\infty}
+        \frac{m!}{(m-n)! \; m^n}
+        \left( 1-\frac{\langle B \rangle}{m} \right)^{m-n}
+\end{align*}
+und dann
+\begin{equation}
+    \lim_{m\to\infty} B(n) = \frac{\langle B \rangle^n}{n!}
+    \lim_{m\to\infty}
+        \frac{m!}{(m-n)! \; m^n}
+        \left( 1-\frac{\langle B \rangle}{m} \right)^{m}
+        \left( 1-\frac{\langle B \rangle}{m} \right)^{-n} \;,
+\end{equation}
+wobei der letzte Faktor offensichtlich gegen 1 konvergiert
+und der vorletzte wegen der Grenzwert-Definition der e-Funktion gegen die e-Funktion
+\begin{equation}
+    \lim_{m\to\infty} \left( 1 + \frac{-\langle B \rangle}{m} \right)^m = \mathrm{e}^{-\langle B \rangle}
+\end{equation}
+konvergiert. Damit bleibt:
+\begin{equation}
+    \lim_{m\to\infty} B(n) = \frac{\langle B \rangle^n}{n!}
+    \mathrm{e}^{-\langle B \rangle}
+    \lim_{m\to\infty}
+        \frac{m!}{(m-n)! \; m^n}
+\end{equation}
+Im verbleibenden Faktor lässt sich schreiben
+\begin{equation}
+    \frac{m!}{(m-n)!} = m \cdot (m-1) \cdot (m-2) \cdots (m-n+1)
+\end{equation}
+Weiterhin:
+\begin{equation}
+    \frac{ m \cdot (m-1) \cdot (m-2) \cdots (m-n+1) }{m^n}
+    = \frac{m}{m} \cdot \frac{m-1}{m} \cdot \frac{m-2}{m} \cdots \frac{m-n+1}{m}
+\end{equation}
+Doch das konvergiert gegen 1.
+
+Damit bleibt
+\begin{equation}
+    \lim_{m\to\infty} B(n) = \frac{\langle B \rangle^n}{n!}
+    \mathrm{e}^{-\langle B \rangle}
+\end{equation}
+und das ist eine Poisson-Verteilung
+mit einem Erwartungswert von $\langle B \rangle$.
 
 
 \end{document}
